@@ -8,7 +8,7 @@
 An experiment to generate highly accurate product photography using Low Rank Adapation (LORA) on Stable Diffusion.
   
 [Click Here](#generated-images) to scroll to generated images from finetuned Stable Diffusion.  
-[Click Here](#generated-images) to look at the results of the filter to detect the presence of an product.
+[Click Here](#sample-code-run-results) to look at the results of the filter to detect the presence of an product.
 
 
 # Problem Statement
@@ -139,38 +139,46 @@ I rescrape the script from [segment-anything-with-clip](https://github.com/Curt-
 
     python image_filter.py
 
-The input images used for this test are located at [filter_image_inputs](filter_image_inputs) and the outputs generated from the script are saved at [filter_image_outputs](filter_image_outputs). The product class can be described in the configration file at [config.yaml](conf/config.yaml). For the purposes of the experiment the following product classes are used  `["hand bag", "shoe","car","watch or watch dial"]`.
+The input images used for this test are located at [filter_image_inputs](filter_image_inputs) and the outputs generated from the script are saved at [filter_image_outputs](filter_image_outputs). **All the input images were generated from the finetuned model in Step 1.** The product class can be described in the configration file at [config.yaml](conf/config.yaml). For the purposes of the experiment the following product classes are used  `["hand bag", "shoe","car","watch or watch dial"]`.
+
 
 ### Sample Code Run Results
 
+Here is the screenshot from the console.
+
+<p float="left" align="middle">
+  <img src="screenshots/filter_output.png" width="500" />
+</p>
+
+As is it seen for each of the image, the program outputs if there is any of the product class in the image and the number of such regions found. For the final image, which is that of moon, we can see that none of the product class are present.
+
+In the visualisation below, each row represents a separate input image. The first image of each row represents the input image and the following images are the mask generated on the identified object. For the last image, since no products in the given list were identified, no masks are generated.
 
 
 <p float="left" align="middle">
-  <img src="filter_image_inputs/00017-45.png" width="100" />
-  <img src="filter_image_outputs/00017-45/hand bag/mask_0.png" width="100" /> 
+  <img src="filter_image_inputs/handbag.png" width="100" />
+  <img src="filter_image_outputs/handbag/hand bag/mask_0.png" width="100" /> 
 </p>
 
 <p float="left" align="middle">
-  <img src="filter_image_inputs/00029-45.png" width="100" />
-  <img src="filter_image_outputs/00029-45/shoe/mask_0.png" width="100" /> 
+  <img src="filter_image_inputs/shoes.png" width="100" />
+  <img src="filter_image_outputs/shoes/shoe/mask_0.png" width="100" /> 
 </p>
 <p float="left" align="middle">
-  <img src="filter_image_inputs/00077-68.png" width="100" />
-  <img src="filter_image_outputs/00077-68/car/mask_0.png" width="100" /> 
-  <img src="task1_outputs/car/00078-42.png" width="100" />
+  <img src="filter_image_inputs/car.png" width="100" />
+  <img src="filter_image_outputs/car/car/mask_0.png" width="100" /> 
 </p>
+
 <p float="left" align="middle">
-  <img src="filter_image_inputs/00082-42.png" width="100" />
-  <img src="task1_outputs/car/00077-68.png" width="100" /> 
-  <img src="task1_outputs/car/00078-42.png" width="100" />
-</p>
+  <img src="filter_image_inputs/watch.png" width="100" />
+  <img src="filter_image_outputs/watch/watch or watch dial/mask_0.png" width="100" /> 
+  <img src="filter_image_outputs/watch/watch or watch dial/mask_1.png" width="100" />
+  <img src="filter_image_outputs/watch/watch or watch dial/mask_2.png" width="100" />
+  <img src="filter_image_outputs/watch/watch or watch dial/mask_3.png" width="100" />
 <p float="left" align="middle">
   <img src="filter_image_inputs/unknown.png" width="100" />
-  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_0.png" width="100" /> 
-  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_1.png" width="100" />
-  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_2.png" width="100" />
-  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_3.png" width="100" />
-</p>
+
+
 
 ## Step 3
 
