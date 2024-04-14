@@ -1,19 +1,16 @@
 import os
-import urllib
-from functools import lru_cache
-from random import randint
-from typing import Any, Callable, Dict, List, Tuple
-import matplotlib.pyplot as plt
-import clip
+
 import cv2
+import hydra
+import matplotlib.pyplot as plt
 import numpy as np
 import PIL
 import torch
-from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
-import hydra
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
-from image_filter_utils import *
+from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
+
+from image_filter_utils import filter_masks, adjust_image_size
 
 
 @hydra.main(version_base=None, config_path="conf", config_name="config.yaml")
@@ -30,6 +27,7 @@ def main(cfg: DictConfig):
     ).to(device)
 
     input_images = os.listdir(cfg.image.input_folder)
+    print(input_images)
     for each_input_image in input_images:
         image_path = os.path.join(cfg.image.input_folder, each_input_image)
 
@@ -71,11 +69,11 @@ def main(cfg: DictConfig):
                     each_mask["segmentation"],
                 )
 
-        image = draw_masks(image, output_mask)
+        # image = draw_masks(image, output_mask)
         print(each_input_image)
         for key, value in query_dict.items():
             print(each_input_image, key, len(value))
-        image = PIL.Image.fromarray(image)
+        # image = PIL.Image.fromarray(image)
         # image.show()
         pass
 
