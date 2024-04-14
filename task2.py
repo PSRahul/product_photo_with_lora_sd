@@ -1,3 +1,4 @@
+# Adapted from https://github.com/luca-medeiros/lang-segment-anything/blob/main/example_notebook/getting_started_with_lang_sam.ipynb
 import argparse
 
 import matplotlib.pyplot as plt
@@ -16,9 +17,9 @@ from task2_utils import *
 def main():
 
     parser = argparse.ArgumentParser(description='Fill the class object pixels with red.')
-    parser.add_argument('--image', help='Path to the input image containing the target object',default="sample_image/00050-65.png")
-    parser.add_argument('--class_name', help='Class name of the target object to be masked',default="car, background")
-    parser.add_argument('--output', help='Path to save the output image with the red mask',default="sample_image/00050-65_output.png")
+    parser.add_argument('--image', help='Path to the input image containing the target object',default="image_inputs/test.jpg")
+    parser.add_argument('--class_name', help='Class name of the target object to be masked',default="person")
+    parser.add_argument('--output', help='Path to save the output image with the red mask',default="image_outputs/test.jpg")
 
     args = parser.parse_args()
 
@@ -26,9 +27,9 @@ def main():
     model = LangSAM(ckpt_path="model-weights/sam_vit_h_4b8939.pth")
     image_pil = Image.open(args.image)
     masks, boxes, phrases, logits = model.predict(image_pil.convert("RGB"), args.class_name)
-    masks=masks.numpy()[0].astype(np.int8)
+    mask_pil=masks.numpy()[0].astype(np.int8)
     
-    mask_pil=Image.fromarray(masks*255)
+    mask_pil=Image.fromarray(mask_pil*255)
     plt.imsave(args.output,np.array(mask_pil))
 
     if len(masks) == 0:
@@ -45,7 +46,7 @@ def main():
 
             # Save the masks
             for i, mask_np in enumerate(masks_np):
-                mask_path = f"image_mask_{i+1}.png"
+                mask_path = f"image_outputs/image_mask_{i+1}.png"
                 save_mask(mask_np, mask_path)
 
             # Print the bounding boxes, phrases, and logits

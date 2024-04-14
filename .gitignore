@@ -1,7 +1,8 @@
 # Third Party Repositories
 sam-hq/
 model-weights/
-sample_image/
+image_inputs/
+image_outputs/
 
 
 # Byte-compiled / optimized / DLL files
