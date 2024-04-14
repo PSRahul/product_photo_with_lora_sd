@@ -1,4 +1,5 @@
 # Adapted from https://github.com/luca-medeiros/lang-segment-anything/blob/main/example_notebook/getting_started_with_lang_sam.ipynb
+
 import argparse
 
 import matplotlib.pyplot as plt

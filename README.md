@@ -1,8 +1,8 @@
 # AI-Enhanced Product Photoshoot Visuals and Filter
-![](task2_outputs/00007-778790675.png)
 
-An experiment to generate highly accurate product photography using Low Rank Adapation (LORA) on Stable Diffusion. [Click Here](#generated-images) to look at the generated images.
-
+<p float="left" align="middle">
+  <img src="task2_outputs/00007-778790675.png" width="1000" />
+</p>
 <!-- TOC -->
 
 - [AI-Enhanced Product Photoshoot Visuals and Filter](#ai-enhanced-product-photoshoot-visuals-and-filter)
@@ -19,6 +19,9 @@ An experiment to generate highly accurate product photography using Low Rank Ada
         - [Generated Images](#generated-images)
     - [Step 2](#step-2)
     - [Step 3](#step-3)
+- [Solutions](#solutions)
+
+<!-- /TOC -->](#step-3)
 - [Solutions](#solutions)
 
 <!-- /TOC -->
@@ -96,6 +99,12 @@ For prompts, I use the following template
     ppzocketv2, "class", stylish, studio photography, product photography, ultra realistic, <lora:ppzocketv2-10:1>
 
 `ppzocketv2` acts as the LoRA activation tag, `"class"` denotes the product class for which we need to generate visual. `<lora:ppzocketv2-10:1>` instructs the Web UI to use the finetuning checkpoint along with the base model. 
+
+Sample Screenshot of the WebUI
+
+<p float="left" align="middle">
+  <img src="screenshots/web_ui_generate.png" width="1000" />
+</p>
 
 ### Generated Images
 The image generated for different product visuals along with the prompt is located at [task1_outputs](task1_outputs). The thumbnails of the generated image is here:
