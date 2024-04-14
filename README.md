@@ -1,32 +1,22 @@
 # AI-Enhanced Product Photoshoot Visuals and Filter
 
 <p float="left" align="middle">
-  <img src="task2_outputs/00007-778790675.png" width="500" />
+  <img src="screenshots/00007-778790675.png" width="500" />
 </p>
-<!-- TOC -->
 
-- [AI-Enhanced Product Photoshoot Visuals and Filter](#ai-enhanced-product-photoshoot-visuals-and-filter)
-- [Overview of the Approach](#overview-of-the-approach)
-- [Explanation of the Process](#explanation-of-the-process)
-    - [Step 1](#step-1)
-        - [Training Methodology](#training-methodology)
-        - [Training Data](#training-data)
-        - [Generating Text Prompts](#generating-text-prompts)
-        - [Activation Tag](#activation-tag)
-        - [Finetuning the Stable Diffusion Model](#finetuning-the-stable-diffusion-model)
-            - [Training Parameters](#training-parameters)
-        - [Generating Product Visuals from LoRA Checkpoint](#generating-product-visuals-from-lora-checkpoint)
-        - [Generated Images](#generated-images)
-    - [Step 2](#step-2)
-    - [Step 3](#step-3)
-- [Solutions](#solutions)
+An experiment to generate highly accurate product photography using Low Rank Adapation (LORA) on Stable Diffusion. [
+  
+[Click Here](#generated-images) to scroll to generated images from finetuned Stable Diffusion.  
+[Click Here](#generated-images) to look at the results of the filter to detect the presence of an product.
 
-<!-- /TOC -->](#step-3)
-- [Solutions](#solutions)
 
-<!-- /TOC -->
+# Problem Statement
+
+In this task, I want to accomplish the three key objectives
+1. **Generative AI for Visuals**: Design an AI Model to generate product photoshoot visuals
 2. **Product Recognition Filter**: AI based filter to identify and isolate specific products in a given image. If the object is present, enhance the visual appearence while preserving other parts of the image.
 3. **Exclusion of Non-Relevant Images**: If none of the products specified are present, skip the image without any additional processing techniques.
+
 
 # Overview of the Approach
 
