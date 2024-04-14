@@ -1,3 +1,9 @@
+# Third Party Repositories
+sam-hq/
+model-weights/
+sample_image/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
