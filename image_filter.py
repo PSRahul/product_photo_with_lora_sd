@@ -19,17 +19,17 @@ def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # device="cpu"
-    # sam = sam_model_registry["vit_h"](checkpoint= "model-weights/sam_vit_h_4b8939.pth").to(device)
 
     sam = sam_model_registry["vit_b"](
         checkpoint="model-weights/sam_vit_b_01ec64.pth"
     ).to(device)
 
-    input_images = os.listdir(cfg.image.input_folder)
-    print(input_images)
+    input_images = os.listdir(cfg.input_folder)
+    print("List of Input Images \n", input_images)
     for each_input_image in input_images:
-        image_path = os.path.join(cfg.image.input_folder, each_input_image)
+        print(f"Processing Input Image - {each_input_image}")
+
+        image_path = os.path.join(cfg.input_folder, each_input_image)
 
         image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         mask_generator = SamAutomaticMaskGenerator(
@@ -38,29 +38,20 @@ def main(cfg: DictConfig):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = adjust_image_size(image)
         masks = mask_generator.generate(image)
-        output_dict = {}
-        output_mask = []
 
-        # dummy_image = draw_masks(image, masks)
-        # dummy_image = PIL.Image.fromarray(dummy_image)
-        # dummy_image.show()
-        for each_class in cfg.product_names:
-
-            query_dict, masks = filter_masks(
-                image,
-                masks,
-                predicted_iou_threshold=0.9,
-                stability_score_threshold=0.8,
-                query=cfg.product_names,
-                clip_threshold=0.85,
-            )
-            if len(masks):
-                # output_dict[query] = masks
-                output_mask.extend(masks)
+        query_dict = filter_masks(
+            image,
+            masks,
+            predicted_iou_threshold=0.9,
+            stability_score_threshold=0.8,
+            query=cfg.product_names,
+            clip_threshold=0.85,
+        )
 
         for key, value in query_dict.items():
+            print(f"Found {len(value)} instances of {key} in the image")
             save_path = os.path.join(
-                cfg.image.output_folder, each_input_image.split(".")[0], key
+                cfg.output_folder, each_input_image.split(".")[0], key
             )
             os.makedirs(save_path, exist_ok=True)
             for idx, each_mask in enumerate(value):
@@ -69,13 +60,8 @@ def main(cfg: DictConfig):
                     each_mask["segmentation"],
                 )
 
-        # image = draw_masks(image, output_mask)
-        print(each_input_image)
-        for key, value in query_dict.items():
-            print(each_input_image, key, len(value))
-        # image = PIL.Image.fromarray(image)
-        # image.show()
-        pass
+        if len(query_dict.keys()) == 0:
+            print(f"No instances of {cfg.product_names} were found in the image")
 
 
 if __name__ == "__main__":

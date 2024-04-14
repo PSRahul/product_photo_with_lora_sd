@@ -1,5 +1,4 @@
-import os
-import urllib
+from collections import defaultdict
 from functools import lru_cache
 from random import randint
 from typing import Any, Callable, Dict, List, Tuple
@@ -9,10 +8,9 @@ import cv2
 import numpy as np
 import PIL
 import torch
-from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
-from collections import defaultdict
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+TOP_K_OBJ = 10
 
 
 @lru_cache
@@ -21,9 +19,6 @@ def load_clip(
 ) -> Tuple[torch.nn.Module, Callable[[PIL.Image.Image], torch.Tensor]]:
     model, preprocess = clip.load(name, device=device)
     return model.to(device), preprocess
-
-
-TOP_K_OBJ = 10
 
 
 @torch.no_grad()
@@ -93,7 +88,6 @@ def filter_masks(
     clip_threshold: float,
 ) -> List[Dict[str, Any]]:
 
-    filtered_masks = []
     filtered_query = defaultdict(list)
     for mask in sorted(masks, key=lambda mask: mask["area"])[-TOP_K_OBJ:]:
         if (
@@ -106,10 +100,9 @@ def filter_masks(
             class_idx, score = get_score(crop_image(image, mask), get_texts(query))
 
             if score > clip_threshold:
-                filtered_masks.append(mask)
                 filtered_query[query[class_idx]].append(mask)
 
-    return filtered_query, filtered_masks
+    return filtered_query
 
 
 def draw_masks(

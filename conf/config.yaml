@@ -11,8 +11,7 @@ hydra:
     dir: .
 
 #############DISABLE HYDRA OUTPUTS################
-image:
-  input_folder: image_inputs
-  output_folder: image_outputs
+input_folder: image_inputs
+output_folder: image_outputs
 
 product_names: ["hand bag", "shoe","car","watch or watch dial"]
