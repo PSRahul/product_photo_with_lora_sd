@@ -9,17 +9,15 @@ from lang_sam import LangSAM
 import os
 os.environ["HF_HOME"] = "/mnt/files/zocket/huggingface/"
 import torch
-#from diffusers import AutoPipelineForInpainting,AutoPipelineForImage2Image
-#from diffusers.utils import load_image, make_image_grid
 import numpy as  np
 from task2_utils import *
 
 def main():
 
     parser = argparse.ArgumentParser(description='Fill the class object pixels with red.')
-    parser.add_argument('--image', help='Path to the input image containing the target object',default="image_inputs/test.jpg")
+    parser.add_argument('--image', help='Path to the input image containing the target object',default="image_inputs/00050-65.png")
     parser.add_argument('--class_name', help='Class name of the target object to be masked',default="person")
-    parser.add_argument('--output', help='Path to save the output image with the red mask',default="image_outputs/test.jpg")
+    parser.add_argument('--output', help='Path to save the output image with the red mask',default="image_outputs/00050-65.pngt")
 
     args = parser.parse_args()
 
