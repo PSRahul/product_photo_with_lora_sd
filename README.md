@@ -28,7 +28,7 @@ The approach I have taken to solve this is based on three steps
 
 - **Step 2** - Once the visuals are generated I use [Segment Anything](https://github.com/facebookresearch/segment-anything) from Facebook and [CLIP](https://github.com/openai/CLIP) from OpenAI to classify the segmentation masks using text prompts. If the given product that is provided with the text prompt is found, the mask of the found object is used for further processing and optimising the chosen product.
 
-- **Step 3** -   To accomplish this, I use [ControlNet](https://github.com/lllyasviel/ControlNet) to more finely control the product while preserving the scene. This is made possible by inpainting from the product mask generated from the previous step.
+- **Step 3** -   To enhance the visual appearence of the project or to even modify the attributes of the product, I use Image2Image Inpainting along with [ControlNet](https://github.com/lllyasviel/ControlNet) to more finely control the product while preserving the scene. This is made possible by the product mask generated from the previous step.
 
 Each of these steps are explained in more detail in the next sections.
 
@@ -139,7 +139,9 @@ I rescrape the script from [segment-anything-with-clip](https://github.com/Curt-
 
     python image_filter.py
 
-The input images used for this test are located at [filter_image_inputs](filter_image_inputs) and the outputs generated from the script are saved at [filter_image_outputs](filter_image_outputs). **All the input images were generated from the finetuned model in Step 1.** The product class can be described in the configration file at [config.yaml](conf/config.yaml). For the purposes of the experiment the following product classes are used  `["hand bag", "shoe","car","watch or watch dial"]`.
+The input images used for this test are located at [filter_image_inputs](filter_image_inputs) and the outputs generated from the script are saved at [filter_image_outputs](filter_image_outputs). **All the input images were generated from the finetuned model in Step 1.** 
+
+The product class can be described in the configration file at [config.yaml](conf/config.yaml). For the purposes of the experiment the following product classes are used  `["hand bag", "shoe","car","watch or watch dial"]`.
 
 
 ### Sample Code Run Results
@@ -150,7 +152,7 @@ Here is the screenshot from the console.
   <img src="screenshots/filter_output.png" width="500" />
 </p>
 
-As is it seen for each of the image, the program outputs if there is any of the product class in the image and the number of such regions found. For the final image, which is that of moon, we can see that none of the product class are present.
+As is it seen from the screenshot, the program outputs if there is any of the product class in the image and the number of such regions found. For the final image, which is that of moon, we can see that none of the product class are present.
 
 In the visualisation below, each row represents a separate input image. The first image of each row represents the input image and the following images are the mask generated on the identified object. For the last image, since no products in the given list were identified, no masks are generated.
 
@@ -175,14 +177,38 @@ In the visualisation below, each row represents a separate input image. The firs
   <img src="filter_image_outputs/watch/watch or watch dial/mask_1.png" width="100" />
   <img src="filter_image_outputs/watch/watch or watch dial/mask_2.png" width="100" />
   <img src="filter_image_outputs/watch/watch or watch dial/mask_3.png" width="100" />
+  </p>
+
 <p float="left" align="middle">
   <img src="filter_image_inputs/unknown.png" width="100" />
-
-
+</p>
 
 ## Step 3
 
-# Solutions
+For the final step, I once again use the [Stable Diffusion Web UI](https://github.com/AUTOMATIC1111/stable-diffusion-webui) for enhancing the product visuals. Additionally, I also use ControlNet to finetune the product details. The images and prompts are available in the folder [controlnet_images](controlnet_images).
 
-Task 1 Prompt - ppzocketv2, "class", stylish, studio photography, product photography, ultra realistic, <lora:ppzocketv2-10:1>
+I use the main image for inpainting through the Image-to-Image generation pipeline. I specify the region to inpaint using the product mask generated in the last step. For ControlNet, I use `control_v11f1p_sd15_depth` model from [lllyasviel/control_v11f1p_sd15_depth](https://huggingface.co/lllyasviel/control_v11f1p_sd15_depth).
 
+The idea behind using ControlNet is to preserve the position and background details of image and only vary the appearence in the inpainted region. By using a ControlNet model based on Depth, the depth map in the source and generated image will be relatively similar. There are also lot more ControlNet models that can be experimented with.
+
+
+<p float="left" align="middle">
+  <img src="controlnet_images/car/car.png" width="100" />
+  <img src="controlnet_images/car/mask_0.png" width="100" /> 
+  <img src="controlnet_images/car/00084-3874773259.png" width="100" />
+  <img src="controlnet_images/car/00093-3921352636.png" width="100" />
+</p>
+
+  <p float="left" align="middle">
+  <img src="controlnet_images/handbag/handbag.png" width="100" />
+  <img src="controlnet_images/handbag/mask_0.png" width="100" /> 
+  <img src="controlnet_images/handbag/00052-3434634984.png" width="100" />
+  <img src="controlnet_images/handbag/00053-474029979.png" width="100" />
+  </p>
+
+  <p float="left" align="middle">
+  <img src="controlnet_images/watch/watch.png" width="100" />
+  <img src="controlnet_images/watch/mask_2.png" width="100" /> 
+  <img src="controlnet_images/watch/00056-534882995.png" width="100" />
+
+  </p>
