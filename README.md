@@ -1,7 +1,7 @@
 # AI-Enhanced Product Photoshoot Visuals and Filter
 
 <p float="left" align="middle">
-  <img src="task2_outputs/00007-778790675.png" width="1000" />
+  <img src="task2_outputs/00007-778790675.png" width="500" />
 </p>
 <!-- TOC -->
 

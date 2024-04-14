@@ -1,0 +1,6 @@
+image:
+  input_folder: image_inputs
+  output_folder: image_outputs
+
+product:
+  class_names: ["car","handbag","watch"]

@@ -1,0 +1,19 @@
+#############DISABLE HYDRA OUTPUTS################
+
+defaults:  
+  - _self_  
+  - override hydra/hydra_logging: disabled  
+  - override hydra/job_logging: disabled  
+  
+hydra:  
+  output_subdir: null  
+  run:  
+    dir: .
+
+#############DISABLE HYDRA OUTPUTS################
+image:
+  input_folder: image_inputs
+  output_folder: image_outputs
+
+product:
+  class_names: ["car","handbag","watch"]
