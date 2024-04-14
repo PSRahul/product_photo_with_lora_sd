@@ -1,10 +1,11 @@
 # AI-Enhanced Product Photoshoot Visuals and Filter
 
 <p float="left" align="middle">
-  <img src="screenshots/00007-778790675.png" width="500" />
+  <img src="screenshots/00007-778790675.png" width="500" />  
 </p>
 
-An experiment to generate highly accurate product photography using Low Rank Adapation (LORA) on Stable Diffusion. [
+
+An experiment to generate highly accurate product photography using Low Rank Adapation (LORA) on Stable Diffusion.
   
 [Click Here](#generated-images) to scroll to generated images from finetuned Stable Diffusion.  
 [Click Here](#generated-images) to look at the results of the filter to detect the presence of an product.
@@ -22,12 +23,12 @@ In this task, I want to accomplish the three key objectives
 
 The approach I have taken to solve this is based on three steps
 
--  **Step 1** - To generate accurate product photoshoots, I fine tune the **Stable Diffusion 1.5** model from RunwayML [(runwayml/stable-diffusion-v1-5)](https://huggingface.co/runwayml/stable-diffusion-v1-5) on selected images of product photoshoot visuals.  
+-  **Step 1** - To generate accurate product photoshoots, I fine tune the **Stable Diffusion 1.5** model from RunwayML [(runwayml/stable-diffusion-v1-5)](https://huggingface.co/runwayml/stable-diffusion-v1-5) using LoRA on selected images of product photoshoot visuals.  
 
 
-- **Step 2** - Once the visuals are generated I use [Language Segment-Anything](https://github.com/luca-medeiros/lang-segment-anything) that builds on [Segment Anything](https://github.com/facebookresearch/segment-anything)from Facebook and [GroundingDINO](https://github.com/IDEA-Research/GroundingDINO) from IDEA Research to guide image segmentation using text prompts.  
+- **Step 2** - Once the visuals are generated I use [Segment Anything](https://github.com/facebookresearch/segment-anything) from Facebook and [CLIP](https://github.com/openai/CLIP) from OpenAI to classify the segmentation masks using text prompts. If the given product that is provided with the text prompt is found, the mask of the found object is used for further processing and optimising the chosen product.
 
-- **Step 3** -  If the given product that is provided with the text prompt is found, the image is used for further processing and optimising the chosen product. To accomplish this I use [ControlNet](https://github.com/lllyasviel/ControlNet) to more finely control the product while preserving the scene.
+- **Step 3** -   To accomplish this, I use [ControlNet](https://github.com/lllyasviel/ControlNet) to more finely control the product while preserving the scene. This is made possible by inpainting from the product mask generated from the previous step.
 
 Each of these steps are explained in more detail in the next sections.
 
@@ -127,6 +128,49 @@ The image generated for different product visuals along with the prompt is locat
 
 ## Step 2
 
+In this step, the task ahead is to find if any of the products are present in the image. Additionally, for improving the product appearence, the mask of where the product is located also needs to be stored. Once we have the binary mask of the product, we can use it as guide for inpainting in the next step.
+
+The Segment Anything model is highly accurate for identifying foreground object but however it does not classify between the different foreground objects. For the task ahead, the position as well as the class that the foreground object belongs to is also required. For classifying the proposed bounding boxes, I used CLIP that demonstrates strong zero-shot capabilities. Therefore, for each bounding box, I check if any of them matches with prompts generated from the class names and classify them.
+
+I rescrape the script from [segment-anything-with-clip](https://github.com/Curt-Park/segment-anything-with-clip) and adapt it for the task of multi-class classification. The code is available at [image_filter.py](image_filter.py) and [image_filter_utils.py](image_filter_utils.py)
+
+
+### Sample Code Run
+
+    python image_filter.py
+
+The input images used for this test are located at [filter_image_inputs](filter_image_inputs) and the outputs generated from the script are saved at [filter_image_outputs](filter_image_outputs). The product class can be described in the configration file at [config.yaml](conf/config.yaml). For the purposes of the experiment the following product classes are used  `["hand bag", "shoe","car","watch or watch dial"]`.
+
+### Sample Code Run Results
+
+
+
+<p float="left" align="middle">
+  <img src="filter_image_inputs/00017-45.png" width="100" />
+  <img src="filter_image_outputs/00017-45/hand bag/mask_0.png" width="100" /> 
+</p>
+
+<p float="left" align="middle">
+  <img src="filter_image_inputs/00029-45.png" width="100" />
+  <img src="filter_image_outputs/00029-45/shoe/mask_0.png" width="100" /> 
+</p>
+<p float="left" align="middle">
+  <img src="filter_image_inputs/00077-68.png" width="100" />
+  <img src="filter_image_outputs/00077-68/car/mask_0.png" width="100" /> 
+  <img src="task1_outputs/car/00078-42.png" width="100" />
+</p>
+<p float="left" align="middle">
+  <img src="filter_image_inputs/00082-42.png" width="100" />
+  <img src="task1_outputs/car/00077-68.png" width="100" /> 
+  <img src="task1_outputs/car/00078-42.png" width="100" />
+</p>
+<p float="left" align="middle">
+  <img src="filter_image_inputs/unknown.png" width="100" />
+  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_0.png" width="100" /> 
+  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_1.png" width="100" />
+  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_2.png" width="100" />
+  <img src="filter_image_outputs/00082-42/watch or watch dial/mask_3.png" width="100" />
+</p>
 
 ## Step 3
 
