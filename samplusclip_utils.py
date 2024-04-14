@@ -19,7 +19,7 @@ def load_clip(
     model, preprocess = clip.load(name, device=device)
     return model.to(device), preprocess
 
-TOP_K_OBJ = 5
+TOP_K_OBJ = 10
 
 
 @torch.no_grad()
@@ -70,6 +70,7 @@ def adjust_image_size(image: np.ndarray) -> np.ndarray:
 
 def get_texts(query: str) -> List[str]:
     return [f"a picture of {query}", "a picture of background"]
+
 def filter_masks(
     image: np.ndarray,
     masks: List[Dict[str, Any]],
@@ -87,12 +88,13 @@ def filter_masks(
             or image.shape[:2] != mask["segmentation"].shape[:2]
             or query
             and get_score(crop_image(image, mask), get_texts(query)) < clip_threshold
+            
         ):
             continue
 
         filtered_masks.append(mask)
 
-    return filtered_masks
+    return query,filtered_masks
 
 def draw_masks(
     image: np.ndarray, masks: List[np.ndarray], alpha: float = 0.7

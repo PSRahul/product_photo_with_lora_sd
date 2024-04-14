@@ -15,4 +15,4 @@ image:
   input_folder: image_inputs
   output_folder: image_outputs
 
-product_names: ["car","handbag","watch"]
+product_names: ["hand bag"] #,"wrist watch","shoe"]
