@@ -83,16 +83,13 @@ def filter_masks(
 
     for mask in sorted(masks, key=lambda mask: mask["area"])[-TOP_K_OBJ:]:
         if (
-            mask["predicted_iou"] < predicted_iou_threshold
-            or mask["stability_score"] < stability_score_threshold
-            or image.shape[:2] != mask["segmentation"].shape[:2]
-            or query
-            and get_score(crop_image(image, mask), get_texts(query)) < clip_threshold
+            mask["predicted_iou"] > predicted_iou_threshold
+            and mask["stability_score"] > stability_score_threshold
+            and image.shape[:2] == mask["segmentation"].shape[:2]
+            and query):
             
-        ):
-            continue
-
-        filtered_masks.append(mask)
+            if(get_score(crop_image(image, mask), get_texts(query)) > clip_threshold):            
+                filtered_masks.append(mask)
 
     return query,filtered_masks
 
