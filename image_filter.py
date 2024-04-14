@@ -3,7 +3,7 @@ import urllib
 from functools import lru_cache
 from random import randint
 from typing import Any, Callable, Dict, List, Tuple
-
+import matplotlib.pyplot as plt
 import clip
 import cv2
 import numpy as np
@@ -13,7 +13,7 @@ from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
 import hydra
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
-from samplusclip_utils import *
+from image_filter_utils import *
 
 
 @hydra.main(version_base=None, config_path="conf", config_name="config.yaml")
@@ -60,12 +60,23 @@ def main(cfg: DictConfig):
                 # output_dict[query] = masks
                 output_mask.extend(masks)
 
+        for key, value in query_dict.items():
+            save_path = os.path.join(
+                cfg.image.output_folder, each_input_image.split(".")[0], key
+            )
+            os.makedirs(save_path, exist_ok=True)
+            for idx, each_mask in enumerate(value):
+                plt.imsave(
+                    os.path.join(save_path, "mask_" + str(idx) + ".png"),
+                    each_mask["segmentation"],
+                )
+
         image = draw_masks(image, output_mask)
         print(each_input_image)
         for key, value in query_dict.items():
             print(each_input_image, key, len(value))
         image = PIL.Image.fromarray(image)
-        image.show()
+        # image.show()
         pass
 
 
