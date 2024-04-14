@@ -40,9 +40,9 @@ def main(cfg : DictConfig):
             output_dict={}
             output_mask=[]
 
-            dummy_image = draw_masks(image, masks)
-            dummy_image = PIL.Image.fromarray(dummy_image)
-            dummy_image.show()
+            #dummy_image = draw_masks(image, masks)
+            #dummy_image = PIL.Image.fromarray(dummy_image)
+            #dummy_image.show()
             for each_class in cfg.product_names:
 
             
@@ -59,9 +59,11 @@ def main(cfg : DictConfig):
                     output_mask.extend(masks)
 
             image = draw_masks(image, output_mask)
-            print(each_input_image,output_dict.keys(),len(output_dict["hand bag"]))
-            image = PIL.Image.fromarray(image)
-            image.show()
+            print(each_input_image)
+            for key,value in output_dict.items():
+                 print(each_input_image,key,len(value))
+            #image = PIL.Image.fromarray(image)
+            #image.show()
             pass
 
     
