@@ -194,8 +194,9 @@ The idea behind using ControlNet is to preserve the position and background deta
 
 <p float="left" align="middle">
   <img src="controlnet_images/car/car.png" width="100" />
-  <img src="controlnet_images/car/mask_0.png" width="100" /> 
-  <img src="controlnet_images/car/00084-3874773259.png" width="100" />
+  <img src="controlnet_images/car/mask_0.png" width="100" />
+  <img src="controlnet_images/car/depth.png" width="100"> 
+   <img src="controlnet_images/car/00084-3874773259.png" width="100">
   <img src="controlnet_images/car/00093-3921352636.png" width="100" />
 </p>
 
