@@ -27,6 +27,9 @@ def main(cfg: DictConfig):
     input_images = os.listdir(cfg.input_folder)
     print("List of Input Images \n", input_images)
     for each_input_image in input_images:
+        term_size = os.get_terminal_size()
+
+        print("=" * term_size.columns)
         print(f"Processing Input Image - {each_input_image}")
 
         image_path = os.path.join(cfg.input_folder, each_input_image)
@@ -61,7 +64,7 @@ def main(cfg: DictConfig):
                 )
 
         if len(query_dict.keys()) == 0:
-            print(f"No instances of {cfg.product_names} were found in the image")
+            print(f"No instances of {cfg.product_names} were found in the image\nclear")
 
 
 if __name__ == "__main__":
