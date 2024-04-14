@@ -21,6 +21,19 @@ def main(cfg : DictConfig):
     print(OmegaConf.to_yaml(cfg))
 
     model = LangSAM(ckpt_path="model-weights/sam_vit_h_4b8939.pth")
+
+    input_images=os.listdir(cfg.image.input_folder)
+    for each_input_image in input_images:
+        image_pil = Image.open(os.path.join(cfg.image.input_folder,each_input_image)).convert("RGB")
+                
+        for each_class in cfg.product_names:
+                masks, boxes, phrases, logits = model.predict(image_pil, f"only detect {each_class}")
+                print(boxes,phrases)
+                mask_pil=masks.numpy()[0].astype(np.int8)
+                print(each_input_image,each_class)
+                mask_pil=Image.fromarray(mask_pil*255)
+                mask_pil.show()
+
     
 
 
