@@ -50,14 +50,14 @@ Using this technique, it is possible to fine-tune LLMs for downstream tasks by i
 
 ### Training Data
 
-For fine-tuning, I sourced images from [Unsplash](https://unsplash.com/). Unsplash offers free high-quality images. The names of the images, along with the photographers, are cited in this [file](lora_training_images/image_list.txt).
+For fine-tuning, I sourced images from [Unsplash](https://unsplash.com/). Unsplash offers free high-quality images. The names of the images, along with the photographers, are cited in this [file](lora_training_images/image_list.txt). Some of the sample images used for finetuning are displayed below.
 
-<figure align="middle">
-  <img src="lora_training_images/13.jpg" width="100" />
+  <p float="left" align="middle">
+    <img src="lora_training_images/13.jpg" width="100" />
   <img src="lora_training_images/22.jpg" width="100" /> 
-  <img src="lora_training_images/33.jpg" width="100" />
-  <figcaption> Sample LoRA Finetuning Images</figcaption>
-</figure>
+  <img src="lora_training_images/33.jpg" width="100" />>
+  </p>
+
 
 
 
