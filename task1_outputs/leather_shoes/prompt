@@ -1,0 +1,5 @@
+ppzocketv2,leather shoes, stylish, studio photography, product photography, ultra realistic, <lora:ppzocketv2-10:1>
+Steps: 30, Sampler: DPM++ 2M, Schedule type: Karras, CFG scale: 7, Seed: 44, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Lora hashes: "ppzocketv2-10: da7cc7e85508", Version: v1.9.0
+
+ppzocketv2,leather shoes, stylish, studio photography, product photography, ultra realistic, <lora:ppzocketv2-10:1>
+Steps: 30, Sampler: DPM++ 2M, Schedule type: Karras, CFG scale: 7, Seed: 65, Size: 512x512, Model hash: 6ce0161689, Model: v1-5-pruned-emaonly, Lora hashes: "ppzocketv2-10: da7cc7e85508", Version: v1.9.0
