@@ -19,7 +19,7 @@ def load_clip(
     model, preprocess = clip.load(name, device=device)
     return model.to(device), preprocess
 
-TOP_K_OBJ = 1
+TOP_K_OBJ = 5
 
 
 @torch.no_grad()
