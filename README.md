@@ -49,11 +49,27 @@ For finetuning, I sourced images from [Unsplash](https://unsplash.com/). Unsplas
 
 Once the images are selected, the text prompts also need to be generated for finetuning stable. For generating the prompts, I used (BLIP: Bootstrapping Language-Image Pre-training)(https://arxiv.org/abs/2201.12086) from Salesforce that has the capabilities of image Captioning.
 
-I use the framework provided by [kohya-colab](https://github.com/hollowstrawberry/kohya-colab) to generate these text prompts. The [Dataset Maker](notebooks/Rahul_Dataset_Maker.ipynb) is run on Google Colab service for the sake of quick experiments and faster hardware.
+I use the framework provided by [kohya-colab](https://github.com/hollowstrawberry/kohya-colab) to generate these text prompts. The [Rahul Dataset Maker](notebooks/Rahul_Dataset_Maker.ipynb) notebook is run on Google Colab service for the sake of quick experiments and faster hardware. Once the prompts are generated, these are stored as a text file with the same name as the image file to be later used for training. The set of training images and text prompts are available at [lora_training_images](lora_training_images).
 
-Once the prompts are generated, these are stored as a text file with the same name as the image file to be later used for training. The set of training images and text prompts are available at [lora_training_images](lora_training_images).
+### Activation Tag
 
+In addition to the tag generated from BLIP, another activation tag called `ppzocketv2` is added to all the training images. During inference, when the same activation tag is used in the text prompt, this will help the stable diffusion model to generate images more closely to the training images.
 
+### Finetuning the Stable Diffusion Model
+
+Once again I use the [Rahul Lora Trainer.ipynb](notebooks/Rahul_Lora_Trainer.ipynb) adapted from [kohya-colab](https://github.com/hollowstrawberry/kohya-colab) and is again run on Google Colab. 
+
+#### Training Parameters
+
+- Total Number of Images: 65  
+- Number of Repeats: 6  
+- Batch Size: 2  
+- Number of Epochs: 10   
+- Steps per Epoch - 65*6/2 - 195 Steps
+- Total Training Steps - 1950
+
+The trained LoRA checkpoint is available [here](lora_checkpoint/ppzocketv2-10.safetensors).
+### Generating Product Visuals from LoRA Checkpoint
 
 ## Step 2
 
